@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranmika | Creative Developer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            900: '#0c4a6e',
+                        },
+                        accent: {
+                            light: '#c084fc',
+                            DEFAULT: '#a855f7',
+                            dark: '#7c3aed',
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'gradient-x': 'gradient-x 15s ease infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        'gradient-x': {
+                            '0%, 100%': { 'background-position': '0% 50%' },
+                            '50%': { 'background-position': '100% 50%' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        
+        /* Grain Texture */
+        .grain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+        
+        /* Text Scramble Effect */
+        .scramble-text {
+            display: inline-block;
+        }
+        
+        /* Magnetic Button */
+        .magnetic-btn {
+            transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
+        /* Smooth Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 5px;
+        }
+        
+        .dark ::-webkit-scrollbar-thumb {
+            background: #334155;
+        }
+        
+        /* Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .dark .glass {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, #0ea5e9 0%, #a855f7 50%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Card Hover Effects */
+        .project-card {
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
+        .project-card:hover {
+            transform: translateY(-10px) scale(1.02);
+        }
+        
+        .project-card:hover .project-image {
+            transform: scale(1.1);
+        }
+        
+        /* Skill Tag Animation */
+        .skill-tag {
+            transition: all 0.3s ease;
+        }
+        
+        .skill-tag:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(14, 165, 233, 0.4);
+        }
+        
+        /* Navigation Link Underline */
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #0ea5e9, #a855f7);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        /* Reveal Animation Classes */
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+        
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(30px);
+        }
+        
+        /* Background Gradient Animation */
+        .animated-bg {
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Typewriter Cursor */
+        .typewriter::after {
+            content: '|';
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 transition-colors duration-300 overflow-x-hidden">
+
+    <!-- Grain Overlay -->
+    <div class="grain"></div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-40 transition-all duration-300">
+        <div class="glass mx-4 mt-4 rounded-2xl px-6 py-4 max-w-6xl mx-auto">
+            <div class="flex items-center justify-between">
+                <a href="#hero" class="font-display font-bold text-xl tracking-tight magnetic-btn">
+                    <span class="gradient-text">RK</span>
+                </a>
+                
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#about" class="nav-link text-sm font-medium magnetic-btn">About</a>
+                    <a href="#projects" class="nav-link text-sm font-medium magnetic-btn">Projects</a>
+                    <a href="#skills" class="nav-link text-sm font-medium magnetic-btn">Skills</a>
+                    <a href="#contact" class="nav-link text-sm font-medium magnetic-btn">Contact</a>
+                    <a href="#fund-raise" class="nav-link text-sm font-medium magnetic-btn">Fund-raise</a>
+                    
+                </div>
+                
+                <div class="flex items-center gap-4">
+                    <button id="theme-toggle" class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors magnetic-btn">
+                        <svg id="sun-icon" class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                        <svg id="moon-icon" class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                    </button>
+                    
+                    <button id="mobile-menu-btn" class="md:hidden p-2">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="fixed inset-0 z-30 bg-white dark:bg-slate-900 transform translate-x-full transition-transform duration-300 md:hidden">
+        <div class="flex flex-col items-center justify-center h-full gap-8">
+            <a href="#about" class="text-2xl font-display font-bold mobile-link">About</a>
+            <a href="#projects" class="text-2xl font-display font-bold mobile-link">Projects</a>
+            <a href="#skills" class="text-2xl font-display font-bold mobile-link">Skills</a>
+            <a href="#contact" class="text-2xl font-display font-bold mobile-link">Contact</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+        <!-- Animated Background Elements -->
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute top-20 left-10 w-72 h-72 bg-primary-400/30 rounded-full mix-blend-multiply filter blur-xl animate-float dark:bg-primary-600/20"></div>
+            <div class="absolute top-40 right-10 w-72 h-72 bg-accent/30 rounded-full mix-blend-multiply filter blur-xl animate-float dark:bg-accent/20" style="animation-delay: 2s;"></div>
+            <div class="absolute -bottom-8 left-1/2 w-72 h-72 bg-pink-400/30 rounded-full mix-blend-multiply filter blur-xl animate-float dark:bg-pink-600/20" style="animation-delay: 4s;"></div>
+        </div>
+
+        <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="reveal-up">
+                <p class="text-primary-600 dark:text-primary-400 font-medium mb-4 tracking-wider uppercase text-sm">Hello, I'm</p>
+                <h1 class="font-display font-bold text-5xl md:text-7xl lg:text-8xl mb-6 tracking-tight">
+                    <span class="scramble-text" data-text="Ran Mika">Ranmika</span>
+                </h1>
+                <div class="h-12 md:h-16 mb-8">
+                    <p class="font-display text-2xl md:text-4xl text-slate-600 dark:text-slate-400 typewriter" id="typewriter-text"></p>
+                </div>
+                <p class="max-w-2xl mx-auto text-lg text-slate-600 dark:text-slate-400 mb-10 leading-relaxed">
+                    I craft digital experiences that blend creativity with technical excellence. 
+                    Specializing in modern web technologies and interactive design.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <a href="#projects" class="magnetic-btn px-8 py-4 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-full font-medium hover:scale-105 transition-transform flex items-center gap-2 group">
+                        View My Achievements
+                        <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                        </svg>
+                    </a>
+                    <a href="#contact" class="magnetic-btn px-8 py-4 border-2 border-slate-900 dark:border-white rounded-full font-medium hover:bg-slate-900 hover:text-white dark:hover:bg-white dark:hover:text-slate-900 transition-all">
+                        Get In Touch
+                    </a>
+                </div>
+            </div>
+
+
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 md:py-32 relative">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="reveal-left">
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-gradient-to-br from-primary-500 to-accent rounded-3xl transform rotate-3 opacity-20"></div>
+                        <div class="relative bg-white dark:bg-slate-800 rounded-3xl p-8 shadow-xl">
+                            <div class="aspect-square rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-600 flex items-center justify-center overflow-hidden">
+                                <div class="text-6xl font-display font-bold gradient-text">RK</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="reveal-right">
+                    <h2 class="font-display font-bold text-3xl md:text-5xl mb-6">About Me</h2>
+                    <div class="space-y-4 text-slate-600 dark:text-slate-400 leading-relaxed">
+                        <p>
+                            I’m a 16-year-old creative from Sri Lanka with a strong passion for design and video editing, focused on creating immersive and visually engaging digital experiences. With a keen eye for detail and a sense of storytelling, I enjoy turning simple ideas into compelling visuals that capture attention and emotion.
+                        </p>
+                        <p>
+                            Currently, I’m exploring the intersection of visual storytelling and user experience, aiming to create content that not only looks good but also connects with people in a meaningful way. I’m always experimenting with new styles, effects, and techniques to improve and refine my craft.
+                        </p>
+                        <p>
+                            When I’m not editing, you’ll find me exploring new creative tools, keeping up with the latest design trends, and diving into gaming and tech for inspiration and fresh ideas.
+                        </p>
+                    </div>
+                    
+                    <div class="mt-8 grid grid-cols-3 gap-4">
+                        <div class="text-center p-4 rounded-2xl bg-slate-100 dark:bg-slate-800">
+                            <div class="text-3xl font-bold gradient-text mb-1">15+</div>
+                            <div class="text-sm text-slate-600 dark:text-slate-400">Age</div>
+                        </div>
+                        <div class="text-center p-4 rounded-2xl bg-slate-100 dark:bg-slate-800">
+                            <div class="text-3xl font-bold gradient-text mb-1">01/17</div>
+                            <div class="text-sm text-slate-600 dark:text-slate-400">Birthdate</div>
+                        </div>
+                        <div class="text-center p-4 rounded-2xl bg-slate-100 dark:bg-slate-800">
+                            <div class="text-3xl font-bold gradient-text mb-1">MRCM</div>
+                            <div class="text-sm text-slate-600 dark:text-slate-400">School</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-20 md:py-32 bg-slate-100/50 dark:bg-slate-800/50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal-up">
+                <h2 class="font-display font-bold text-3xl md:text-5xl mb-4">My Achievements</h2>
+                <p class="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+                    Showcasing my personal milestones in academics, sports, and other activities.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1 -->
+                <div class="project-card group bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-lg reveal-up cursor-pointer">
+                    <div class="aspect-video overflow-hidden bg-gradient-to-br from-primary-500/20 to-accent/20 relative">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="w-20 h-20 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center">
+                                <svg class="w-10 h-10 text-slate-700 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/40 transition-colors duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                            <span class="px-6 py-3 bg-white text-slate-900 rounded-full font-medium transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">See More</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display font-bold text-xl mb-2">Video editor</h3>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm mb-4">Create polished, engaging videos with smooth transitions and professional effects.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded-full text-xs">After Effects</span>
+                            <span class="px-3 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded-full text-xs">Capcut</span>
+                          
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card group bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-lg reveal-up cursor-pointer" style="transition-delay: 100ms;">
+                    <div class="aspect-video overflow-hidden bg-gradient-to-br from-accent/20 to-pink-500/20 relative">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="w-20 h-20 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center">
+                              <svg class="w-10 h-10 text-slate-700 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/40 transition-colors duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                            <span class="px-6 py-3 bg-white text-slate-900 rounded-full font-medium transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">See More</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display font-bold text-xl mb-2">Portfolio Website</h3>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm mb-4">I built a modern, accessible websites and web apps with delightful micro-interactions.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-accent/10 dark:bg-accent/20 text-accent-dark dark:text-accent-light rounded-full text-xs">HTML</span>
+                            <span class="px-3 py-1 bg-accent/10 dark:bg-accent/20 text-accent-dark dark:text-accent-light rounded-full text-xs">CSS</span>
+                            <span class="px-3 py-1 bg-accent/10 dark:bg-accent/20 text-accent-dark dark:text-accent-light rounded-full text-xs">JS</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card group bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-lg reveal-up cursor-pointer" style="transition-delay: 200ms;">
+                    <div class="aspect-video overflow-hidden bg-gradient-to-br from-pink-500/20 to-orange-500/20 relative">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="w-20 h-20 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center">
+                                <svg class="w-10 h-10 text-slate-700 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/40 transition-colors duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                            <span class="px-6 py-3 bg-white text-slate-900 rounded-full font-medium transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">See More</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display font-bold text-xl mb-2">Social Media</h3>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm mb-4">Actively create and share content, engage with communities, and grow an online presence.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 rounded-full text-xs">YouTube</span>
+                            <span class="px-3 py-1 bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 rounded-full text-xs">Tiktok</span>
+                            <span class="px-3 py-1 bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 rounded-full text-xs">Instagram</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="project-card group bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-lg reveal-up cursor-pointer">
+                    <div class="aspect-video overflow-hidden bg-gradient-to-br from-green-500/20 to-primary-500/20 relative">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="w-20 h-20 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center">
+                                <svg class="w-10 h-10 text-slate-700 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                    
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/40 transition-colors duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                            <span class="px-6 py-3 bg-white text-slate-900 rounded-full font-medium transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">See More</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display font-bold text-xl mb-2">Sportsman</h3>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm mb-4">Cricket and Football are more than a sport for me—it’s a passion that inspires teamwork, strategy, and dedication.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full text-xs">Cricket</span>
+                            <span class="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full text-xs">Football</span>
+                            <span class="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full text-xs">Chess</span>
+                        </div>
+                    </div>
+                </div>
+
+              <!-- Project 5 -->
+                <div class="project-card group bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-lg reveal-up cursor-pointer" style="transition-delay: 100ms;">
+                    <div class="aspect-video overflow-hidden bg-gradient-to-br from-yellow-500/20 to-red-500/20 relative">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="w-20 h-20 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center">
+                                <svg class="w-10 h-10 text-slate-700 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/40 transition-colors duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                            <span class="px-6 py-3 bg-white text-slate-900 rounded-full font-medium transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">See More</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display font-bold text-xl mb-2">Graphics Designer</h3>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm mb-4">Real-time Graphics Design with chat and recommendation engine.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 rounded-full text-xs">Photoshop</span>
+                            <span class="px-3 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 rounded-full text-xs">Illustator</span>
+                            <span class="px-3 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 rounded-full text-xs">Canva</span>
+                        </div>
+                    </div>
+                </div>
+
+    
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="https://github.com/ranmika17" target="_blank" class="inline-flex items-center gap-2 text-primary-600 dark:text-primary-400 font-medium hover:gap-3 transition-all magnetic-btn">
+                    View All My Achievements on GitHub
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-20 md:py-32">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal-up">
+                <h2 class="font-display font-bold text-3xl md:text-5xl mb-4">Apps & Games I Use/Play</h2>
+                <p class="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+                    My technical toolkit for building modern web applications and digital experiences.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Frontend -->
+                <div class="reveal-up">
+                    <h3 class="font-display font-bold text-xl mb-6 flex items-center gap-2">
+                        <span class="w-8 h-8 rounded-lg bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center text-primary-600 dark:text-primary-400">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                            </svg>
+                        </span>
+                       Video Editing
+                    </h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-tag px-4 py-2 bg-white dark:bg-slate-800 rounded-full text-sm font-medium shadow-sm cursor-default">After Effects</span>
+                        <span class="skill-tag px-4 py-2 bg-white dark:bg-slate-800 rounded-full text-sm font-medium shadow-sm cursor-default">Premier Pro</span>
+                        <span class="skill-tag px-4 py-2 bg-white dark:bg-slate-800 rounded-full text-sm font-medium shadow-sm cursor-default">Capcut</span>
+                        <span class="skill-tag px-4 py-2 bg-white dark:bg-slate-800 rounded-full text-sm font-medium shadow-sm cursor-default">Alight Motion</span>
+                        
+                        <span class="skill-tag px-4 py-2 bg-white dark:bg-slate-800 rounded-full text-sm font-medium shadow-sm cursor-default">Wink</span>
+                        <span class="skill-tag px-4 py-2 bg-white dark:bg-slate-800 rounded-full text-sm font-medium shadow-sm cursor-default">Edits</span>
+                        
+                    </div>
+                </div>
+
+                <!-- Backend -->
+                <div class="reveal-up" style="transition-delay: 100ms;">
+                    <h3 class="font-display font-bold text-xl mb-6 flex items-center gap-2">
+                        <span class="w-8 h-8 rounded-lg bg-accent/10 dark:bg-accent/20 flex items-center justify-center text-accent-dark dark:text-accent-light">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
+                            </svg>
+                        </span>
+                        Games
+                    </h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-tag px-4 py-2 bg-white dark:bg-slate-800 rounded-full text-sm font-medium shadow-sm cursor-default">Ac Black Flag</span>
+                        <span class="skill-tag px-4 py-2 bg-white dark:bg-slate-800 rounded-full text-sm font-medium shadow-sm cursor-default">Clash Of Clans</span>
+                        <span class="skill-tag px-4 py-2 bg-white dark:bg-slate-800 rounded-full text-sm font-medium shadow-sm cursor-default">Clash Royale</span>
+                        <span class="skill-tag px-4 py-2 bg-white dark:bg-slate-800 rounded-full text-sm font-medium shadow-sm cursor-default">Rdr 1</span>
+                        <span class="skill-tag px-4 py-2 bg-white dark:bg-slate-800 rounded-full text-sm font-medium shadow-sm cursor-default">Blood Strike</span>
+                        <span class="skill-tag px-4 py-2 bg-white dark:bg-slate-800 rounded-full text-sm font-medium shadow-sm cursor-default">Fortnite</span>
+                        
+                    </div>
+                </div>
+
+                <!-- Tools & Design -->
+                <div class="reveal-up" style="transition-delay: 200ms;">
+                    <h3 class="font-display font-bold text-xl mb-6 flex items-center gap-2">
+                        <span class="w-8 h-8 rounded-lg bg-pink-100 dark:bg-pink-900/30 flex items-center justify-center text-pink-600 dark:text-pink-400">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+                            </svg>
+                        </span>
+                        Design & Tools
+                    </h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-tag px-4 py-2 bg-white dark:bg-slate-800 rounded-full text-sm font-medium shadow-sm cursor-default">Figma</span>
+                        <span class="skill-tag px-4 py-2 bg-white dark:bg-slate-800 rounded-full text-sm font-medium shadow-sm cursor-default">Adobe XD</span>
+                        <span class="skill-tag px-4 py-2 bg-white dark:bg-slate-800 rounded-full text-sm font-medium shadow-sm cursor-default">Git</span>
+                        <span class="skill-tag px-4 py-2 bg-white dark:bg-slate-800 rounded-full text-sm font-medium shadow-sm cursor-default">VS Code</span>
+                        <span class="skill-tag px-4 py-2 bg-white dark:bg-slate-800 rounded-full text-sm font-medium shadow-sm cursor-default">Vercel</span>
+                        <span class="skill-tag px-4 py-2 bg-white dark:bg-slate-800 rounded-full text-sm font-medium shadow-sm cursor-default">Jest</span>
+                        <span class="skill-tag px-4 py-2 bg-white dark:bg-slate-800 rounded-full text-sm font-medium shadow-sm cursor-default">Cypress</span>
+                        <span class="skill-tag px-4 py-2 bg-white dark:bg-slate-800 rounded-full text-sm font-medium shadow-sm cursor-default">Webpack</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<!-- Fund Raise Section -->
+<section id="fund-raise" class="py-20 md:py-32 bg-slate-50 dark:bg-slate-900 relative">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Section Header -->
+        <div class="text-center mb-16 reveal-up">
+            <h2 class="font-display font-bold text-3xl md:text-5xl mb-4">Fund Raise</h2>
+            <p class="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+                Support my PS4 Pro project! Help me get the tools I need to create amazing projects.
+            </p>
+        </div>
+
+        <!-- Fund Raise Content -->
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+<!-- Image Left -->
+<div class="reveal-left">
+    <div class="relative rounded-3xl overflow-hidden shadow-xl">
+        <img src="https://m.media-amazon.com/images/I/51W9a-gmcwL.jpg" alt="PS4 Pro" class="w-full h-auto object-cover rounded-3xl">
+        <div class="absolute inset-0 bg-primary-400/20 dark:bg-primary-600/20 mix-blend-multiply"></div>
+    </div>
+</div>
+
+            <!-- Text Right -->
+            <div class="reveal-right flex flex-col gap-6">
+                <h3 class="font-display font-bold text-2xl md:text-3xl">I am Fund Raising</h3>
+                <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+                    I'm raising funds to get a PS4 Pro to continue building and sharing amazing gaming projects. 
+                    Your support will help me bring my ideas to life.
+                </p>
+
+                <p class="text-slate-600 dark:text-slate-400">
+                    If you'd like to contribute, contact me via:
+                </p>
+
+                <!-- Contact Buttons -->
+                <div class="flex flex-wrap gap-4">
+                    <a href="mailto:ranmikakalhan17@gmail.com" class="px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-full font-medium hover:scale-105 transition-transform flex items-center gap-2">
+                        Email
+                        <svg class="w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                        </svg>
+                    </a>
+                    <a href="https://www.tiktok.com/@ranmikakalhan17?_r=1&_t=ZS-94vJiB2I1gn" target="_blank" class="px-6 py-3 bg-primary-500 text-white rounded-full font-medium hover:bg-primary-600 transition-colors">
+                        Tiktok
+</a>
+
+<a href="https://www.instagram.com/ranmika17?igsh=MXMwcGJiaXZnN29pMw==" target="_blank"
+   class="px-6 py-3 text-white rounded-full font-medium transition-all duration-300 
+   bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-400 hover:scale-105">
+   Instagram
+</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 md:py-32 bg-slate-100/50 dark:bg-slate-800/50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal-up">
+                <h2 class="font-display font-bold text-3xl md:text-5xl mb-4">Let's Work Together</h2>
+                <p class="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+                    Have a project in mind? I'd love to hear about it. Let's create something amazing together.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="reveal-left space-y-6">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center text-primary-600 dark:text-primary-400 shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-display font-bold text-lg mb-1">Email</h3>
+                            <a href="mailto:hello@ranmika.dev" class="text-slate-600 dark:text-slate-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">ranmikakalhan17@gmail.com</a>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-accent/10 dark:bg-accent/20 flex items-center justify-center text-accent-dark dark:text-accent-light shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-display font-bold text-lg mb-1">Location</h3>
+                            <p class="text-slate-600 dark:text-slate-400">Matara, Sri Lanka</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-pink-100 dark:bg-pink-900/30 flex items-center justify-center text-pink-600 dark:text-pink-400 shrink-0">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-display font-bold text-lg mb-1">GitHub</h3>
+                            <a href="https://github.com/ranmika17" target="_blank" class="text-slate-600 dark:text-slate-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">@ranmika17</a>
+                        </div>
+                    </div>
+                </div>
+
+                <form class="reveal-right space-y-4" id="contact-form">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Name</label>
+                        <input type="text" class="w-full px-4 py-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all" placeholder="Isuru Imasal">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Email</label>
+                        <input type="email" class="w-full px-4 py-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all" placeholder="isuru@example.com">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Message</label>
+                        <textarea rows="4" class="w-full px-4 py-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all resize-none" placeholder="Tell me about your project..."></textarea>
+                    </div>
+                    <button type="submit" class="w-full py-4 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl font-medium hover:scale-[1.02] transition-transform magnetic-btn flex items-center justify-center gap-2 group">
+                        Send Message
+                        <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 border-t border-slate-200 dark:border-slate-800">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p class="text-slate-600 dark:text-slate-400 text-sm">
+                © 2026 Ranmika. All rights reserved.
+            </p>
+            <div class="flex items-center gap-6">
+                <a href="https://github.com/ranmika17" target="_blank" class="text-slate-600 dark:text-slate-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors magnetic-btn">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                </a>
+                <a href="https://linkedin.com" target="_blank" class="text-slate-600 dark:text-slate-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors magnetic-btn">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                </a>
+                <a href="https://twitter.com" target="_blank" class="text-slate-600 dark:text-slate-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors magnetic-btn">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+      const hasMouse = window.matchMedia('(pointer: fine)').matches;
+        // Register GSAP ScrollTrigger
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Custom Cursor
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+        
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+            
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+            
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        // Cursor hover effect
+        const interactiveElements = document.querySelectorAll('a, button, .magnetic-btn, .project-card, .skill-tag');
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => cursorOutline.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursorOutline.classList.remove('hover'));
+        });
+
+        // Magnetic Button Effect
+        const magneticBtns = document.querySelectorAll('.magnetic-btn');
+        magneticBtns.forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                
+                btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+            });
+            
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = 'translate(0, 0)';
+            });
+        });
+
+        // Text Scramble Effect
+        class TextScramble {
+            constructor(el) {
+                this.el = el;
+                this.chars = '!<>-_\\/[]{}—=+*^?#________';
+                this.update = this.update.bind(this);
+            }
+            
+            setText(newText) {
+                const oldText = this.el.innerText;
+                const length = Math.max(oldText.length, newText.length);
+                const promise = new Promise((resolve) => this.resolve = resolve);
+                this.queue = [];
+                
+                for (let i = 0; i < length; i++) {
+                    const from = oldText[i] || '';
+                    const to = newText[i] || '';
+                    const start = Math.floor(Math.random() * 40);
+                    const end = start + Math.floor(Math.random() * 40);
+                    this.queue.push({ from, to, start, end });
+                }
+                
+                cancelAnimationFrame(this.frameRequest);
+                this.frame = 0;
+                this.update();
+                return promise;
+            }
+            
+            update() {
+                let output = '';
+                let complete = 0;
+                
+                for (let i = 0, n = this.queue.length; i < n; i++) {
+                    let { from, to, start, end, char } = this.queue[i];
+                    
+                    if (this.frame >= end) {
+                        complete++;
+                        output += to;
+                    } else if (this.frame >= start) {
+                        if (!char || Math.random() < 0.28) {
+                            char = this.randomChar();
+                            this.queue[i].char = char;
+                        }
+                        output += `<span class="text-primary-500">${char}</span>`;
+                    } else {
+                        output += from;
+                    }
+                }
+                
+                this.el.innerHTML = output;
+                
+                if (complete === this.queue.length) {
+                    this.resolve();
+                } else {
+                    this.frameRequest = requestAnimationFrame(this.update);
+                    this.frame++;
+                }
+            }
+            
+            randomChar() {
+                return this.chars[Math.floor(Math.random() * this.chars.length)];
+            }
+        }
+
+        // Initialize scramble effect
+        const scrambleEl = document.querySelector('.scramble-text');
+        if (scrambleEl) {
+            const fx = new TextScramble(scrambleEl);
+            let counter = 0;
+            const phrases = ['Ranmika Kalhan', 'Video Editor', 'Designer', 'Creator'];
+            
+            const next = () => {
+                fx.setText(phrases[counter]).then(() => {
+                    setTimeout(next, 3000);
+                });
+                counter = (counter + 1) % phrases.length;
+            };
+            
+            next();
+        }
+
+        // Typewriter Effect
+        const typewriterText = document.getElementById('typewriter-text');
+        const phrases = ['Content Creator', 'UI/UX Designer', 'Website Builder', 'Problem Solver'];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+
+        function typeWriter() {
+            const currentPhrase = phrases[phraseIndex];
+            
+            if (isDeleting) {
+                typewriterText.textContent = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typewriterText.textContent = currentPhrase.substring(0, charIndex + 1);
+                charIndex++;
+            }
+            
+            let typeSpeed = isDeleting ? 50 : 100;
+            
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                typeSpeed = 2000;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                typeSpeed = 500;
+            }
+            
+            setTimeout(typeWriter, typeSpeed);
+        }
+        
+        typeWriter();
+
+        // Dark Mode Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+        
+        // Check system preference
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            html.classList.add('dark');
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+        });
+
+        // Navigation Show/Hide on Scroll
+        const navbar = document.getElementById('navbar');
+        let lastScroll = 0;
+        
+       
+
+        // Mobile Menu
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('translate-x-full');
+        });
+        
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('translate-x-full');
+            });
+        });
+
+        // Scroll Reveal Animations
+        const revealElements = document.querySelectorAll('.reveal-up, .reveal-left, .reveal-right');
+        
+        revealElements.forEach(el => {
+            gsap.to(el, {
+                scrollTrigger: {
+                    trigger: el,
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse'
+                },
+                opacity: 1,
+                x: 0,
+                y: 0,
+                duration: 0.8,
+                ease: 'power3.out'
+            });
+        });
+
+        // Parallax Effect for Hero
+        gsap.to('.animate-float', {
+            scrollTrigger: {
+                trigger: '#hero',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: 1
+            },
+            y: 200,
+            ease: 'none'
+        });
+
+        // Form Submission
+        document.getElementById('contact-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerHTML;
+            
+            btn.innerHTML = `
+                <svg class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Sending...
+            `;
+            
+            setTimeout(() => {
+                btn.innerHTML = `
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    Message Sent!
+                `;
+                btn.classList.add('bg-green-600', 'dark:bg-green-500');
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.classList.remove('bg-green-600', 'dark:bg-green-500');
+                    e.target.reset();
+                }, 3000);
+            }, 1500);
+        });
+
+        // Smooth Scroll for Navigation Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Project Card Click Handler
+        document.querySelectorAll('.project-card').forEach(card => {
+            card.addEventListener('click', () => {
+                // In a real implementation, this would open the project details
+                const title = card.querySelector('h3').textContent;
+                alert(`Opening ${title}... (Demo functionality)`);
+            });
+        });
+    </script>
+</body>
+</html>
