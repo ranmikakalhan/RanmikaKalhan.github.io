@@ -261,10 +261,10 @@ function buildTopBar(name) {
     .slice(0, 2)
     .toUpperCase();
   mount.innerHTML = `
-    <a class="liquid bar press" href="index.html" aria-label="${esc(name)} — home" data-top-pill>
+    <div class="liquid bar press" href="index.html" aria-label="${esc(name)} — home" data-top-pill>
       <span class="logo-mark" aria-hidden="true">${initials}</span>
       <span class="logo-text">${esc(name.split(" ")[0])} <i>${esc(name.split(" ").slice(1).join(" "))}</i></span>
-    </a>`;
+    </div>`;
   const bar = mount.querySelector("[data-top-pill]");
   onScroll(() => bar.classList.toggle("is-scrolled", window.scrollY > 40));
 }
