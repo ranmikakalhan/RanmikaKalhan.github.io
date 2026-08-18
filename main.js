@@ -277,7 +277,7 @@ function latest() {
     <div class="wrap">
       ${heading("Journal", "Latest from the blog", "Thoughts on sport, tech and building things for the web.")}
       <div class="cards cards-3 mt-12">${cards}</div>
-      <div class="reveal mt-10">${btn("blog.html", "Read all articles", "outline", "arrow-right")}</div>
+      <div class="reveal mt-10">${btn("404.html", "Read all articles", "outline", "arrow-right")}</div>
     </div>`;
 }
 
