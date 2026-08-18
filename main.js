@@ -339,37 +339,97 @@ function contact() {
       </div>
     </div>`;
 }
+function socialIcon(name) {
+  const logos = {
+    github: "https://cdn.simpleicons.org/github",
+    instagram: "https://cdn.simpleicons.org/instagram",
+    tiktok: "https://cdn.simpleicons.org/tiktok",
+    youtube: "https://cdn.simpleicons.org/youtube",
+  };
 
+  if (logos[name]) {
+    return `
+      <img
+        src="${logos[name]}"
+        alt=""
+        class="social-logo"
+        width="24"
+        height="24"
+        loading="lazy"
+      />
+    `;
+  }
+
+  // Email still uses your Lucide icon
+  return icon(name, "icon-lg");
+}
 function connect() {
   const cards = socials
     .map(
       (social, index) => `
-      <a class="liquid social reveal" data-delay="${index * 70}" href="${esc(social.href)}"${social.href.startsWith("http") ? ' target="_blank" rel="noreferrer"' : ""}>
-        <span class="blob" aria-hidden="true" style="background:oklch(0.7 0.18 ${social.hue} / 0.5)"></span>
-        <span class="icon-box">${icon(social.icon, "icon-lg")}</span>
+      <a
+        class="liquid social reveal"
+        data-delay="${index * 70}"
+        href="${esc(social.href)}"
+        ${social.href.startsWith("http") ? 'target="_blank" rel="noreferrer"' : ""}
+      >
+        <span
+          class="blob"
+          aria-hidden="true"
+          style="background:oklch(0.7 0.18 ${social.hue} / 0.5)"
+        ></span>
+
+        <span class="icon-box">
+          ${socialIcon(social.icon)}
+        </span>
+
         <span style="min-width:0">
           <span class="name">${esc(social.label)}</span>
           <span class="handle">${esc(social.handle)}</span>
         </span>
-        <span class="go">${icon("arrow-up-right", "icon-sm")}</span>
-      </a>`,
+
+        <span class="go">
+          ${icon("arrow-up-right", "icon-sm")}
+        </span>
+      </a>
+    `,
     )
     .join("");
 
   return `
     <div class="wrap">
       ${heading("Find me online", "Let's connect")}
-      <div class="socials mt-10">${cards}</div>
+
+      <div class="socials mt-10">
+        ${cards}
+      </div>
+
       <div class="reveal center mt-12">
-        <h3 style="font-size:clamp(1.5rem,4vw,2rem)">Have a project in mind?</h3>
-        <p class="muted mt-4" style="max-width:28rem;margin-inline:auto;font-size:0.9rem">
+        <h3 style="font-size:clamp(1.5rem,4vw,2rem)">
+          Have a project in mind?
+        </h3>
+
+        <p
+          class="muted mt-4"
+          style="max-width:28rem;margin-inline:auto;font-size:0.9rem"
+        >
           I'd love to hear about it. Let's create something amazing together.
         </p>
-        <div class="mt-6" style="display:flex;justify-content:center">
-          ${btn(`mailto:${site.email}`, "Start a conversation", "primary", "arrow-right")}
+
+        <div
+          class="mt-6"
+          style="display:flex;justify-content:center"
+        >
+          ${btn(
+            `mailto:${site.email}`,
+            "Start a conversation",
+            "primary",
+            "arrow-right",
+          )}
         </div>
       </div>
-    </div>`;
+    </div>
+  `;
 }
 
 /* ---------- behaviour ---------- */
