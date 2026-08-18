@@ -151,23 +151,21 @@ function buildNav() {
       <span class="nav-sep" aria-hidden="true"></span>
       <button type="button" class="theme-toggle press" data-theme-toggle></button>
     </div>
-    <button type="button" class="to-top liquid press" data-to-top aria-label="Back to top">
-      ${icon("arrow-up", "icon")}
-    </button>`;
+    `;
 
   paintIcons(mount);
   paintToggle();
 
   const pill = mount.querySelector("[data-nav-pill]");
-  const toTop = mount.querySelector("[data-to-top]");
+  
   const links = [...mount.querySelectorAll(".nav-item")];
 
-  toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+
 
   onScroll(() => {
     const scrolled = window.scrollY > 40;
     pill.classList.toggle("is-scrolled", scrolled);
-    toTop.classList.toggle("is-visible", scrolled);
+    
   });
 
   /* label expansion on hover / focus / touch */
