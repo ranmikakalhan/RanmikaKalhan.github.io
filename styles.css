@@ -620,3 +620,22 @@ footer { border-top: 1px solid var(--border); padding: 3rem 1.25rem 8rem; }
 }
 .logo-text { font-size: 0.8rem; font-weight: 600; letter-spacing: -0.01em; }
 .logo-text i { font-style: normal; color: var(--muted-foreground); font-weight: 500; }
+.social-logo {
+  width: 26px;
+  height: 26px;
+  display: block;
+  object-fit: contain;
+}
+
+.social-logo-fallback {
+  width: 26px;
+  height: 26px;
+  align-items: center;
+  justify-content: center;
+}
+
+.social .icon-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
