@@ -258,7 +258,7 @@ function latest() {
   const cards = posts
     .map(
       (post, index) => `
-      <a class="liquid post-card reveal" data-delay="${index * 80}" href="post.html?slug=${encodeURIComponent(post.slug)}">
+      <a class="liquid post-card reveal" data-delay="${index * 80}" href="404.html">
         ${post.cover_image ? `<div class="post-cover"><img src="${esc(post.cover_image)}" alt="${esc(post.title)}" loading="lazy" /></div>` : ""}
         <div class="post-body">
           <div class="post-meta">
